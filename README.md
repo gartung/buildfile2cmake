@@ -1,11 +1,8 @@
 # buildfile2cmake
 
-Creates CMake project files from SCRAM BuildFile.xml files.
+Creates CMake project files from SCRAM BuildFile.xml files for dictionary generation and compilation.
 
 ## Usage
-
-`cd` into a directory containing a SCRAM BuildFile.xml files.
-Then run `PATH/TO/REPO/buildfile2cmake`.
 
 The included builtin.json uses cmake variables defined by the cmake modlues in https://github.com/hsf/cmaketools as well as standard CMake modules.
 
@@ -13,9 +10,13 @@ The dictionaries branch has been tailored to only build the CMSSW ROOT dictionar
 
 To use:
 
-- Set up a scram project area
+- Clone the dictionaries branch of the repo
 ```
 git clone -b dictionaries https://github.com/gartung/buildfile2cmake.git
+```
+
+- Set up a scram project area
+```
 scram pro CMSSW CMSSW_11_2_0_pre7
 ```
 - Checkout all CMSSW packages

@@ -15,6 +15,7 @@ To use:
 
 - Set up a scram project area
 ```
+git clone -b dictionaries https://github.com/gartung/buildfile2cmake.git
 scram pro CMSSW CMSSW_11_2_0_pre7
 ```
 - Checkout all CMSSW packages

@@ -60,7 +60,7 @@ make VERBOSE=1 -j8
 LD_LIBRARY_PATH=$PWD/lib
 ```
 
-- The cmake command will produce errors like those shown below. These are same to ignore as local as the Makefile is generated. These errors are reported because the package library and tests may need those dependencies but the dictionary libraries do not.
+- The cmake command will produce errors like those shown below. These are safe to ignore as local as the Makefile is generated. These errors are reported because the package libraries and tests may need those dependencies but the dictionary libraries do not.
 ```
 -- Could NOT find CLHEP (missing: CLHEP_INCLUDE_DIR CLHEP_LIBRARIES) 
 CMake Warning (dev) at /cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/cmake/3.17.2-pafccj/share/cmake-3.17/Modules/FindPackageHandleStandardArgs.cmake:272 (message):

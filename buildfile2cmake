@@ -469,6 +469,26 @@ class CMakeGenerator:
                 out.write('${CMAKE_INSTALL_LIBDIR}')
                 out.write(' EXPORT stitched::')
                 out.write(')\n\n')
+            if str(target.symbol) == 'FWCoreUtilities' :
+                out.write('include_directories(${CMAKE_SOURCE_DIR}\n')
+                out.write('\n'.join(sorted(target.include_dirs)))
+                out.write('\n)\n\n')
+                out.write('add_library(')
+                out.write(target.symbol)
+                out.write(' SHARED ${'+target.symbol+'_EXTRA_SOURCES}')
+                for source in sorted(target.source_files):
+                    out.write('\n  ' + source)
+                out.write('\n)\n\n')
+                out.write('set_target_properties(')
+                out.write(target.symbol)
+                out.write(' PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)\n\n')
+                out.write('add_dependencies( ALL_LIBS '+target.symbol+')\n\n')
+                out.write('install( TARGETS ') 
+                out.write(target.symbol)
+                out.write(' DESTINATION ${CMAKE_INSTALL_PREFIX}/')
+                out.write('${CMAKE_INSTALL_LIBDIR}')
+                out.write(' EXPORT stitched::')
+                out.write(')\n\n')
 #            if target.is_executable:
 #                if len(target.test_runner_args) >= 0:
 #                    out.write('add_executable(')
@@ -547,11 +567,13 @@ class CMakeGenerator:
 #                    out.write('# target_xcompile_options(' + target.symbol + 
 #                              ' ' + target.ld_flags + ')\n\n')
 #
-#                if len(target.needed_libs) != 0:
-#                    out.write('target_link_libraries(' + target.symbol + ' PUBLIC\n')
-#                    out.write('\n'.join(sorted(target.needed_libs)))
-#                    out.write('\n)\n\n')
-#                out.write('\n')
+                if len(target.needed_libs) != 0:
+                    missing_libs = ['FWCoreUtilities', 'DataFormatsCommon', 'DataFormstsProvenance', 'DataFormatCandidate', 'DataFormatsTrackReco']
+                    needed_libs = [ lib for lib in target.needed_libs if lib in missing_libs ]
+                    if len(needed_libs) != 0:
+                        out.write('target_link_libraries(' + target.symbol + ' PUBLIC\n')
+                        out.write('\n'.join(sorted(needed_libs))) 
+                        out.write('\n)\n\n')
 #
 #                if re.search('test', target.dir) :
 #                    if not target.is_executable:
@@ -597,6 +619,14 @@ class CMakeGenerator:
                 out.write('${CMAKE_INSTALL_LIBDIR}')
                 out.write(' EXPORT stitched::')
                 out.write(')\n\n')
+                if len(target.needed_libs) != 0:
+                    missing_libs = ['FWCoreUtilities', 'DataFormatsCommon', 'DataFormstsProvenance', 'DataFormatCandidate', 'DataFormatsTrackReco']
+                    needed_libs = [ lib for lib in target.needed_libs if lib in missing_libs ]
+                    if len(needed_libs) != 0:
+                        out.write('target_link_libraries(' + target.symbol + ' PUBLIC\n')
+                        out.write('\n'.join(sorted(needed_libs))) 
+                        out.write('\n)\n\n')
+                out.write('\n')
  
     # Generates the CMakeLists.txt for a given target. Note: This function APPENDS to an
     # existing CMakeLists.txt, because multiple targets are each written by their own

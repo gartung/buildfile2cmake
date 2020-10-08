@@ -457,6 +457,8 @@ class CMakeGenerator:
                 out.write('add_library(')
                 out.write(target.symbol)
                 out.write(' SHARED ${'+target.symbol+'_EXTRA_SOURCES}')
+                for source in sorted(target.source_files):
+                    out.write('\n  ' + source)
                 out.write('\n)\n\n')
                 out.write('set_target_properties(')
                 out.write(target.symbol)

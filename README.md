@@ -53,7 +53,12 @@ cmake ../src  \
 -DEIGEN_INCLUDE_DIR=/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/eigen/d812f411c3f9-ghbfee/include \
 -DFASTJET_INCLUDE_DIR=/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/fastjet/3.3.4/include \
 -DCLASSLIB_INCLUDE_DIR=/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/classlib/3.1.3-ghbfee/include  \
--DORACLE_INCLUDE_DIR=/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/oracle/12.1.0.2.0-bcolbf/include
+-DORACLE_INCLUDE_DIR=/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/oracle/12.1.0.2.0-bcolbf/include \
+-DCORAL_INCLUDE_DIR=/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/coral/CORAL_2_3_21-ghbfee6/include/LCG \
+-DMESCHACH_INCLUDE_DIR=/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/meschach/1.2.pCMS1-bcolbf2/include \
+-DVDT_INCLUDE_DIR=-DVDT_INCLUDE_DIR=/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/vdt/0.4.0-ghbfee/include \
+-DHEPPDT_INCLUDE_DIR=/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/heppdt/3.03.00-ghbfee2/include \
+-DMKFIT_INCLUDE_DIR=/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/mkfit/2.0.1-ghbfee2/include
 make VERBOSE=1 -j8
 ```
 - Assuming the configuration and build complete you can now make the dictionaries available by setting LD_LIBRARY_PATH

@@ -144,7 +144,10 @@
     },
     "boost": {
         "includes": [
-            "${Boost_INCLUDE_DIR}"
+            "${Boost_INCLUDE_DIR}",
+            "${Boost_INCLUDE_DIR}/python",
+            "${Python_INCLUDE_DIR}",
+            "/usr/include"
         ]
     },
     "boost_chrono": {
@@ -171,8 +174,12 @@
     "boost_python": {
         "includes": [
             "${Boost_INCLUDE_DIR}",
-            "${Boost_INCLUDE_DIR}/python"
-        ]
+            "${Boost_INCLUDE_DIR}/python",
+            "${Python_INCLUDE_DIR}"
+        ],
+     "depends": [
+            "py2-pybind11"
+         ]
     },
     "boost_regex": {
         "includes": [
@@ -383,16 +390,8 @@
             "${GSL_INCLUDE_DIR}"
         ]
     },
-    "google-benchmark-main":{
-        "find": [
-            "benchmark"
-        ]
-    },
-    "google-benchmark":{
-        "find": [
-            "benchmark"
-        ]
-    },
+    "google-benchmark-main":{},
+    "google-benchmark":{},
     "hector": {
         "includes": [
             "${HECTOR_INCLUDE_DIR}"
@@ -548,9 +547,9 @@
     "py2-pippkgs": {},
     "py2-root_numpy": {},
     "py2-pybind11" : {
-        "find": [
-            "pybind11"
-         ]
+        "includes": [
+            "${PYBIND11_INCLUDE_DIR}"
+        ]
     },
     "pyclang": {},
     "pydata": {},
@@ -913,7 +912,11 @@
     "python_tools": {},
     "hydjet": {},
     "pyquen": {},
-    "mkfit": {},
+    "mkfit": {
+        "includes": [
+            "${MKFIT_INCLUDE_DIR}"
+        ]
+    },
     "onnxruntime": {},
     "stdcxx-fs": {},
     "ofast-flag": {},

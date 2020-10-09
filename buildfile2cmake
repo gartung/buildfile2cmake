@@ -436,6 +436,11 @@ class CMakeGenerator:
         self.project = project
         self.linkable_targets = set(['${TBB_LIBRARIES}',
             '${CLHEP_LIBRARIES}',
+            '${CLHEP_MAIN_LIBRARY}',
+            '${TINYXML2_LIBRARY}',
+            '${HEPMC_HepMC_LIBRARY}',
+            "${HEPPDT_PDT_LIBRARY}",
+            "${VDT_LIBRARIES}",
             'fmt::fmt',
             'FWCoreUtilities',
             'FWCoreMessageLogger',

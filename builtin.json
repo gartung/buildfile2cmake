@@ -370,6 +370,7 @@
             "${CLHEP_INCLUDE_DIR}"
         ],
         "links": [
+            "${CLHEP_LIBRARIES}",
             "${CLHEP_MAIN_LIBRARY}"
         ]
     },
@@ -381,7 +382,8 @@
             "${CLHEP_INCLUDE_DIR}"
         ],
         "links": [
-            "${CLHEP_LIBRARIES}"
+            "${CLHEP_LIBRARIES}",
+            "${CLHEP_MAIN_LIBRARY}"
         ]
     },
     "clhepheader": {
@@ -422,9 +424,6 @@
         ]
     },
     "davix": {
-        "find": [
-            "DAVIX"
-        ],
         "includes": [
             "${DAVIX_INCLUDE_DIR}"
         ],
@@ -699,17 +698,11 @@
     "google-benchmark-main":{
         "links": [
             "benchmark::benchmark_main"
-        ],
-        "find": [
-            "benchmark"
         ]
     },
     "google-benchmark":{
         "links": [
             "benchmark::benchmark"
-        ],
-        "find": [
-            "benchmark"
         ]
     },
     "hector": {
@@ -1692,14 +1685,20 @@
     },
     "valgrind": {},
     "vdt": {
+        "find": [
+            "VDT"
+        ],
         "includes": [
             "${VDT_INCLUDE_DIR}"
         ],
         "links": [
-            "vdt"
+            "${VDT_LIBRARIES}"
         ]
     },
     "vdt_headers": {
+        "find": [
+            "VDT"
+        ],
         "includes": [
             "${VDT_INCLUDE_DIR}"
         ]

@@ -234,17 +234,6 @@
             "${Boost_INCLUDE_DIR}/python",
             "${Python_INCLUDE_DIR}",
             "/usr/include"
-        ],
-        "links": [
-            "Threads::Threads",
-            "Boost::thread",
-            "Boost::filesystem",
-            "Boost::system",
-            "Boost::iostreams",
-            "Boost::program_options",
-            "Boost::serialization",
-            "Boost::system",
-            "Boost::regex"
         ]
     },
     "boost_chrono": {

@@ -434,7 +434,19 @@ class CMakeGenerator:
 
     def __init__(self, project):
         self.project = project
-        self.linkable_targets = set(['${CLHEP_LIBRARIES}', 'fmt', 'FWCoreUtilities', 'FWCoreMessageLogger'])
+        self.linkable_targets = set(['${TBB_LIBRARIES}',
+            '${CLHEP_LIBRARIES}',
+            'fmt::fmt',
+            'FWCoreUtilities',
+            'FWCoreMessageLogger',
+            'FWCoreReflection',
+            "Threads::Threads",
+            "ROOT::Tree",
+            "ROOT::Net",
+            "ROOT::Thread",
+            "ROOT::RIO",
+            "ROOT::Core",
+            "ROOT::MathCore"])
     # Writes the necessary CMake commands to generate the given target
     # to the given out stream (which needs to support a 'write' call).
     def generate_target(self, target, out):
@@ -476,7 +488,7 @@ class CMakeGenerator:
                         out.write('target_link_libraries(' + target.symbol + ' PUBLIC\n')
                         out.write('\n'.join(sorted(needed_libs))) 
                         out.write('\n)\n\n')
-            elif str(target.symbol) in ['FWCoreUtilities', 'FWCoreMessageLogger'] :
+            elif str(target.symbol) in ['FWCoreUtilities', 'FWCoreMessageLogger', 'FWCoreReflection'] :
                 out.write('include_directories(${CMAKE_SOURCE_DIR}\n')
                 out.write('\n'.join(sorted(target.include_dirs)))
                 out.write('\n)\n\n')

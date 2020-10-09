@@ -57,13 +57,14 @@ cmake ../src  \
 -DCORAL_INCLUDE_DIR=/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/coral/CORAL_2_3_21-ghbfee6/include/LCG \
 -DMESCHACH_INCLUDE_DIR=/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/meschach/1.2.pCMS1-bcolbf2/include \
 -DVDT_INCLUDE_DIR=-DVDT_INCLUDE_DIR=/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/vdt/0.4.0-ghbfee/include \
--DHEPPDT_INCLUDE_DIR=/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/heppdt/3.03.00-ghbfee2/include \
--DMKFIT_INCLUDE_DIR=/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/mkfit/2.0.1-ghbfee2/include
+-DHepPDT_INCLUDE_DIR=/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/heppdt/3.03.00-ghbfee2/include \
+-DMKFIT_INCLUDE_DIR=/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/mkfit/2.0.1-ghbfee2/include \
+-DPYBIND11_INCLUDE_DIR=/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/py2-pybind11/2.4.3-bcolbf2/include/python2.7
 make VERBOSE=1 -j8
 ```
 - Assuming the configuration and build complete you can now make the dictionaries available by setting LD_LIBRARY_PATH
 ```
-LD_LIBRARY_PATH=$PWD/lib
+LD_LIBRARY_PATH=$PWD/lib:$LD_LIBRARY_PATH
 ```
 
 - The cmake command will produce errors like those shown below. These are safe to ignore as local as the Makefile is generated. These errors are reported because the package libraries and tests may need those dependencies but the dictionary libraries do not.
@@ -112,7 +113,7 @@ CMake Warning at CMakeLists.txt:61 (find_package):
 
 
 -- Could NOT find HepMC (missing: HEPMC_LIBRARIES) 
--- Could NOT find HepPDT (missing: HEPPDT_INCLUDE_DIR HEPPDT_LIBRARIES) 
+-- Could NOT find HepPDT (missing: HEPPDT_LIBRARIES) 
 -- Could NOT find SIGCPP (missing: SIGCPP_LIBRARIES) 
 -- Could NOT find TINYXML2 (missing: TINYXML2_LIBRARIES) 
 -- Could NOT find XercesC (missing: XERCESC_LIBRARY) 
@@ -130,23 +131,6 @@ CMake Warning at CMakeLists.txt:83 (find_package):
   Add the installation prefix of "benchmark" to CMAKE_PREFIX_PATH or set
   "benchmark_DIR" to a directory containing one of the above files.  If
   "benchmark" provides a separate development package or SDK, be sure it has
-  been installed.
-
-
-CMake Warning at CMakeLists.txt:85 (find_package):
-  By not providing "Findpybind11.cmake" in CMAKE_MODULE_PATH this project has
-  asked CMake to find a package configuration file provided by "pybind11",
-  but CMake did not find one.
-
-  Could not find a package configuration file provided by "pybind11" with any
-  of the following names:
-
-    pybind11Config.cmake
-    pybind11-config.cmake
-
-  Add the installation prefix of "pybind11" to CMAKE_PREFIX_PATH or set
-  "pybind11_DIR" to a directory containing one of the above files.  If
-  "pybind11" provides a separate development package or SDK, be sure it has
   been installed.
 
 

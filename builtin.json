@@ -7,11 +7,7 @@
             "CSCTrackFinderEmulation"
         ]
     },
-    "coral":{
-        "includes": [
-            "${CORAL_INCLUDE_DIR}"
-        ]
-    },
+    "coral":{},
     "CoralBase": {
         "depends": ["coral"],
         "links": [
@@ -729,10 +725,10 @@
             "HepPDT"
         ],
         "includes": [
-            "${HepPDT_INCLUDE_DIR}"
+            "${HEPPDT_INCLUDE_DIR}"
         ],
         "links": [
-            "${HepPDT_HePDT_LIBRARY}"
+            "${HEPPDT_PDT_LIBRARY}"
         ]
     },
     "herwig": {
@@ -904,14 +900,7 @@
             "${OPENSSL_CRYPTO_LIBRARY}"
         ]
     },
-    "oracle": {
-        "includes": [
-            "${ORACLE_INCLUDE_DIR}"
-        ],
-        "links": [
-            "clntsh"
-        ]
-    },
+    "oracle": {},
     "oracleocci": {
         "depends": [
             "oracle"
@@ -1541,17 +1530,7 @@
             "ToolsOrg"
         ]
     },
-    "sigcpp": {
-        "find": [
-            "SIGCPP"
-        ],
-        "includes": [
-            "${SIGCPP_INCLUDE_DIR}"
-        ],
-        "links": [
-            "${SIGCPP_LIBRARY}"
-        ]
-    },
+    "sigcpp": {},
     "sockets": {
         "includes": [
             "/usr/include"

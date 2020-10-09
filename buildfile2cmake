@@ -435,23 +435,31 @@ class CMakeGenerator:
     def __init__(self, project):
         self.project = project
         self.linkable_targets = set(['${TBB_LIBRARIES}',
-            '${CLHEP_LIBRARIES}',
-            '${CLHEP_MAIN_LIBRARY}',
-            '${TINYXML2_LIBRARY}',
-            '${HEPMC_HepMC_LIBRARY}',
-            "${HEPPDT_PDT_LIBRARY}",
-            "${VDT_LIBRARIES}",
-            'fmt::fmt',
-            'FWCoreUtilities',
-            'FWCoreMessageLogger',
-            'FWCoreReflection',
-            "Threads::Threads",
-            "ROOT::Tree",
-            "ROOT::Net",
-            "ROOT::Thread",
-            "ROOT::RIO",
-            "ROOT::Core",
-            "ROOT::MathCore"])
+                                     '${CLHEP_LIBRARIES}',
+                                     '${CLHEP_MAIN_LIBRARY}',
+                                     '${TINYXML2_LIBRARY}',
+                                     '${HEPMC_HepMC_LIBRARY}',
+                                     "${HEPPDT_PDT_LIBRARY}",
+                                     "${VDT_LIBRARIES}",
+                                     'fmt::fmt',
+                                     'FWCoreUtilities',
+                                     'FWCoreMessageLogger',
+                                     'FWCoreReflection',
+                                     "Threads::Threads",
+                                     "ROOT::Tree",
+                                     "ROOT::Net",
+                                     "ROOT::Thread",
+                                     "ROOT::RIO",
+                                     "ROOT::Core",
+                                     "ROOT::MathCore"])
+        self.skipped_targets=set(['AlignmentCocoaFit',
+                                  'OnlineDBOracle',
+                                  'OnlineDBEcalCondDB',
+                                  'CondCoreDBOutputService',
+                                  'RecoLuminosityLumiProducer',
+                                  'CondCoreUtilities',
+                                  'FireworksCore',
+                                  'FireworksFWInterface'])        
     # Writes the necessary CMake commands to generate the given target
     # to the given out stream (which needs to support a 'write' call).
     def generate_target(self, target, out):
@@ -460,7 +468,7 @@ class CMakeGenerator:
 
         if target.has_source():
             out.write('#target.symbol %s\n' % target.symbol)
-            if target.has_dictionary():
+            if target.has_dictionary() and str(target.symbol) not in self.skipped_targets:
                 out.write('include_directories(${CMAKE_SOURCE_DIR}\n')
                 out.write('\n'.join(sorted(target.include_dirs)))
                 out.write('\n)\n\n')
@@ -519,111 +527,8 @@ class CMakeGenerator:
                         out.write('target_link_libraries(' + target.symbol + ' PUBLIC\n')
                         out.write('\n'.join(sorted(needed_libs))) 
                         out.write('\n)\n\n')
-#            if target.is_executable:
-#                if len(target.test_runner_args) >= 0:
-#                    out.write('add_executable(')
-#                    out.write(target.symbol)
-#                    for source in sorted(target.source_files):
-#                        out.write('\n  ' + source)
-#                    out.write('\n)\n\n')
-#            else:
-#                out.write('add_library(')
-#                out.write(target.symbol)
-#                out.write(' SHARED ${'+target.symbol+'_EXTRA_SOURCES}')
-#                for source in sorted(target.source_files):
-#                    out.write('\n  ' + source)
-#                out.write('\n)\n\n')
-
-#            if re.search('test', target.dir):
-#                if target.is_executable:
-#                    if len(target.test_runner_args) == 3:
-#                        out.write('add_test(NAME %s_CTest COMMAND %s -x ${CMAKE_CURRENT_SOURCE_DIR}/%s)\n\n' % (target.symbol, target.test_runner_args[0], target.test_runner_args[2] ) )
-#                        out.write('add_test_properties(%s_CTest)\n\n' % target.symbol)
-#                        if not target.pretest == '':
-#                            out.write('set_tests_properties(%s_CTest %s_CTest  PROPERTIES RUN_SERIAL TRUE)\n\n' % (target.pretest, target.symbol))
-#                    if len(target.test_runner_args) > 3:
-#                        for i in range(2,len(target.test_runner_args)):
-#                            out.write('add_test(NAME %s_%s_CTest COMMAND %s -x ${CMAKE_CURRENT_SOURCE_DIR}/%s)\n\n'%(target.symbol,i,target.test_runner_args[0], target.test_runner_args[i] ))
-#                            out.write('add_test_properties(%s_%s_CTest)\n\n' % (target.symbol,i))
-#
-#
-#                    if len(target.test_runner_args) == 0:
-#                        if target.run_test:
-#                            out.write('add_test(NAME '+target.symbol+'_CTest COMMAND '+target.symbol+')\n\n')
-#                            out.write('add_test_properties('+target.symbol+'_CTest)\n\n')
-#                    out.write('set_target_properties(%s PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/test)\n\n'%target.symbol)
-#                    out.write('add_dependencies( ALL_TESTBINS '+target.symbol+')\n\n')
-#                    out.write('add_dependencies( '+target.symbol+' ALL_PLUGINS)\n\n')
-#                    if target.symbol == 'standAloneWithMessageLogger':
-#                        out.write('target_compile_definitions( %s PUBLIC EDM_ML_DEBUG)\n\n' % target.symbol)
-#                    if target.symbol == 'testPyDevParameterSet' or target.symbol == 'testPyBind11ParameterSet':
-#                        out.write('add_dependencies( %s file_in_path )\n\n' % target.symbol)
-#                else:
-#                    out.write('set_target_properties(')
-#                    out.write(target.symbol)
-#                    out.write(' PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)\n\n')
-#                    out.write('add_dependencies( ALL_TESTLIBS '+target.symbol+')\n\n')
-#            else:
-#                if target.is_executable:
-#                    out.write('set_target_properties( ')
-#                    out.write(target.symbol)
-#                    out.write(' PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)\n\n')
-#                    out.write('add_dependencies( ALL_BINS '+target.symbol+')\n\n')
-#                else:
-#                    out.write('set_target_properties(')
-#                    out.write(target.symbol)
-#                    out.write(' PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)\n\n')
-#                    out.write('add_dependencies( ALL_LIBS '+target.symbol+')\n\n')
-#            if re.search('plugin', target.dir) or target.edm_plugin:
-#                if not target.is_executable:
-#                    out.write('set_target_properties(')
-#                    out.write(target.symbol)
-#                    out.write(' PROPERTIES PREFIX "plugin")\n\n')
-#                    out.write('add_dependencies( ALL_PLUGINS '+target.symbol+')\n\n')
-#                    tdir=str.join('/', target.dir.split('/')[:2])
-#                    out.write('edm_write_config( '+target.symbol+' '+tdir+')\n\n')
-#            if len(target.test_runner_args) >= 0:
-#                out.write('target_include_directories('+target.symbol+' PRIVATE ${CMAKE_SOURCE_DIR})\n\n')
-#                if len(target.include_dirs) > 0:
-#                    out.write('target_include_directories(' + target.symbol + ' PUBLIC\n')
-#                    out.write('\n'.join(sorted(target.include_dirs)))
-#                    out.write('\n)\n\n')
-#                
-#                if target.cxx_flags:
-#                    out.write('add_compile_options('+'"'+' '.join(sorted(target.cxx_flags))+'"' + ')\n\n')
-#
-#                if len(target.ld_flags.strip()) != 0:
-#                    out.write('# Manually defined LD_FLAGS\n')
-#                    out.write('# target_xcompile_options(' + target.symbol + 
-#                              ' ' + target.ld_flags + ')\n\n')
-#
-#                if len(target.needed_libs) != 0:
-#                    out.write('target_link_libraries(' + target.symbol + ' PUBLIC\n')
-#                    out.write('\n'.join(sorted(needed_libs))) 
-#                    out.write('\n)\n\n')
-#
-#                if re.search('test', target.dir) :
-#                    if not target.is_executable:
-#                        out.write('install( TARGETS ') 
-#                        out.write(target.symbol)
-#                        out.write(' DESTINATION ${CMAKE_INSTALL_PREFIX}/')
-#                        out.write('${CMAKE_INSTALL_LIBDIR}')
-#                        out.write(' EXPORT stitched::')
-#                        out.write(')\n\n')
-#                else:
-#                    out.write('add_python_rules('+target.dir+')\n\n')
-#                    out.write('add_script_rules('+target.dir+')\n\n')
-#                    out.write('install( TARGETS ') 
-#                    out.write(target.symbol)
-#                    out.write(' DESTINATION ${CMAKE_INSTALL_PREFIX}/')
-#                    if target.is_executable:
-#                        out.write('${CMAKE_INSTALL_BINDIR} ')
-#                    else:
-#                        out.write('${CMAKE_INSTALL_LIBDIR}')
-#                    out.write(' EXPORT stitched::')
-#                    out.write(')\n\n')
         else:
-            if target.has_dictionary():
+            if target.has_dictionary() and str(target.symbol) not in self.skipped_targets:
                 out.write('#target.symbol %s\n' % target.symbol)
                 out.write('include_directories(${CMAKE_SOURCE_DIR}\n')
                 out.write('\n'.join(sorted(target.include_dirs)))
@@ -705,16 +610,19 @@ class CMakeGenerator:
                     break
 
         if has_buildable_targets:
-            subsystem_cmake.write('# Meta-target that builds everything in this subsystem\n')
-            subsystem_cmake.write('add_custom_target(' + subsystem + '_all)\n\n')
-            subsystem_cmake.write('add_dependencies(' + subsystem + '_all')
+            targets=set()
             for module in subsystem_modules:
                 for target in module.targets:
                     # FIXME: The StaticAnalyzer check is just an ugly hack...
-                    if target.built_by_cmake() and target.symbol != 'UtilitiesStaticAnalyzers':
-                        subsystem_cmake.write('\n  ' + target.symbol)
-
-            subsystem_cmake.write('\n)\n')
+                    if target.built_by_cmake() and target.symbol != 'UtilitiesStaticAnalyzers'  and str(target.symbol) not in self.skipped_targets:
+                        targets.add(target.symbol)
+            if targets:
+                subsystem_cmake.write('# Meta-target that builds everything in this subsystem\n')
+                subsystem_cmake.write('add_custom_target(' + subsystem + '_all)\n\n')
+                subsystem_cmake.write('add_dependencies(' + subsystem + '_all')
+                for target in sorted(targets):
+                    subsystem_cmake.write('\n  ' + target)
+                subsystem_cmake.write('\n)\n')
 
         subsystem_cmake.close()
 
@@ -741,7 +649,7 @@ include(${ROOT_USE_FILE})
 set(Boost_NO_BOOST_CMAKE ON)
 set(Boost_NO_SYSTEM_PATHS ON)
 find_package(Boost 1.67.0 COMPONENTS filesystem thread iostreams regex serialization system program_options python%s%s)
-add_compile_definitions(BOOST_SPIRIT_THREADSAFE;PHOENIX_THREADSAFE;BOOST_MATH_DISABLE_STD_FPCLASSIFY;BOOST_UUID_RANDOM_PROVIDER_FORCE_POSIX)
+add_compile_definitions(BOOST_SPIRIT_THREADSAFE;PHOENIX_THREADSAFE;BOOST_MATH_DISABLE_STD_FPCLASSIFY;BOOST_UUID_RANDOM_PROVIDER_FORCE_POSIX;TBB_USE_GLIBCXX_VERSION=80400;TBB_SUPPRESS_DEPRECATED_MESSAGES)
 find_package(Python%s COMPONENTS Development)
 set(Python_INCLUDE_DIR ${Python%s_INCLUDE_DIRS})
 set(Python_LIBRARY Python%s::Python)
@@ -1016,7 +924,7 @@ install(FILES ${pcmfiles} ${rootmapfiles} ${CMAKE_BINARY_DIR}/lib/.edmplugincach
     def gen(self):
         for module in self.project.modules:
             for target in module.targets:
-                if target.has_dictionary() and str(target.symbol) not in self.linkable_targets:
+                if target.has_dictionary() and str(target.symbol) not in self.linkable_targets and str(target.symbol) not in self.skipped_targets:
                     self.linkable_targets.add(str(target.symbol))
         for module in self.project.modules:
             if self.handle_module(module):

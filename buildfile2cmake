@@ -458,6 +458,7 @@ class CMakeGenerator:
                                   'DQMServicesCore',
                                   'HeterogeneousCoreCUDATest',
                                   'HeterogeneousCoreCUDAUtilities',
+                                  'CUDADataFormatsCommon',
                                   'OnlineDBOracle',
                                   'OnlineDBEcalCondDB',
                                   'CondCoreDBOutputService',

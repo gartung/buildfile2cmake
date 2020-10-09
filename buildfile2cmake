@@ -453,7 +453,7 @@ class CMakeGenerator:
                                      "ROOT::Core",
                                      "ROOT::MathCore"])
         self.skipped_targets=set(['AlignmentCocoaFit',
-                                  'AlignmentCocoaApplication'
+                                  'AlignmentCocoaApplication',
                                   'CUDADataFormatsBeamSpot',
                                   'DQMServicesCore',
                                   'HeterogeneousCoreCUDATest',

@@ -453,13 +453,21 @@ class CMakeGenerator:
                                      "ROOT::Core",
                                      "ROOT::MathCore"])
         self.skipped_targets=set(['AlignmentCocoaFit',
+                                  'AlignmentCocoaApplication'
+                                  'CUDADataFormatsBeamSpot',
+                                  'DQMServicesCore',
+                                  'HeterogeneousCoreCUDATest',
+                                  'HeterogeneousCoreCUDAUtilities',
                                   'OnlineDBOracle',
                                   'OnlineDBEcalCondDB',
                                   'CondCoreDBOutputService',
                                   'RecoLuminosityLumiProducer',
+                                  'RecoTrackerMkFit',
                                   'CondCoreUtilities',
                                   'FireworksCore',
-                                  'FireworksFWInterface'])        
+                                  'RecoParticleFlowBenchmark',
+                                  'FireworksFWInterface']) 
+        self.allowed_targets=set(['FWCoreUtilities', 'FWCoreMessageLogger', 'FWCoreReflection'])       
     # Writes the necessary CMake commands to generate the given target
     # to the given out stream (which needs to support a 'write' call).
     def generate_target(self, target, out):
@@ -501,7 +509,7 @@ class CMakeGenerator:
                         out.write('target_link_libraries(' + target.symbol + ' PUBLIC\n')
                         out.write('\n'.join(sorted(needed_libs))) 
                         out.write('\n)\n\n')
-            elif str(target.symbol) in ['FWCoreUtilities', 'FWCoreMessageLogger', 'FWCoreReflection'] :
+            elif str(target.symbol) in self.allowed_targets:
                 out.write('include_directories(${CMAKE_SOURCE_DIR}\n')
                 out.write('\n'.join(sorted(target.include_dirs)))
                 out.write('\n)\n\n')

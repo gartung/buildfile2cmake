@@ -353,14 +353,7 @@
             "CGAL"
         ]
     },
-    "classlib": {
-        "includes": [
-            "${CLASSLIB_INCLUDE_DIR}"
-        ],
-        "links": [
-            "classlib"
-        ]
-    },
+    "classlib": {},
     "CLHEP": {
         "includes": [
             "${CLHEP_INCLUDE_DIR}"
@@ -401,16 +394,7 @@
             "${CPPUNIT_LIBRARY}"
         ]
     },
-    "cuda": {
-        "includes": [
-            "${CUDA_INCLUDE_DIR}"
-        ],
-        "links": [
-            "cudart",
-            "cudadevrt",
-            "nvToolsExt"
-        ]
-    },
+    "cuda": {},
     "curl": {
         "includes": [
             "${CURL_INCLUDE_DIR}"
@@ -845,14 +829,7 @@
             "${MD5_LIBRARY}"
         ]
     },
-    "meschach": {
-        "includes": [
-            "${MESCHACH_INCLUDE_DIR}"
-        ],
-        "links": [
-            "meschach"
-        ]
-    },
+    "meschach": {},
     "minuit2": {
         "includes": [
             "${ROOT_INCLUDE_DIR}"
@@ -1773,11 +1750,7 @@
     "python_tools": {},
     "hydjet": {},
     "pyquen": {},
-    "mkfit": {
-        "includes": [
-            "${MKFIT_INCLUDE_DIR}"
-        ]
-    },
+    "mkfit": {},
     "onnxruntime": {},
     "stdcxx-fs": {},
     "ofast-flag": {},

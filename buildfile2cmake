@@ -434,12 +434,13 @@ class CMakeGenerator:
 
     def __init__(self, project):
         self.project = project
-
+        self.linkable_targets = set(['${CLHEP_LIBRARIES}', 'fmt', 'FWCoreUtilities', 'FWCoreMessageLogger'])
     # Writes the necessary CMake commands to generate the given target
     # to the given out stream (which needs to support a 'write' call).
     def generate_target(self, target, out):
         if re.search('buildfile2cmake',target.dir):
             return
+
         if target.has_source():
             out.write('#target.symbol %s\n' % target.symbol)
             if target.has_dictionary():
@@ -469,7 +470,13 @@ class CMakeGenerator:
                 out.write('${CMAKE_INSTALL_LIBDIR}')
                 out.write(' EXPORT stitched::')
                 out.write(')\n\n')
-            if str(target.symbol) == 'FWCoreUtilities' :
+                if len(target.needed_libs) != 0:
+                    needed_libs = [ lib for lib in target.needed_libs if lib in self.linkable_targets ]
+                    if len(needed_libs) != 0:
+                        out.write('target_link_libraries(' + target.symbol + ' PUBLIC\n')
+                        out.write('\n'.join(sorted(needed_libs))) 
+                        out.write('\n)\n\n')
+            elif str(target.symbol) in ['FWCoreUtilities', 'FWCoreMessageLogger'] :
                 out.write('include_directories(${CMAKE_SOURCE_DIR}\n')
                 out.write('\n'.join(sorted(target.include_dirs)))
                 out.write('\n)\n\n')
@@ -489,6 +496,12 @@ class CMakeGenerator:
                 out.write('${CMAKE_INSTALL_LIBDIR}')
                 out.write(' EXPORT stitched::')
                 out.write(')\n\n')
+                if len(target.needed_libs) != 0:
+                    needed_libs = [ lib for lib in target.needed_libs if lib in self.linkable_targets ]
+                    if len(needed_libs) != 0:
+                        out.write('target_link_libraries(' + target.symbol + ' PUBLIC\n')
+                        out.write('\n'.join(sorted(needed_libs))) 
+                        out.write('\n)\n\n')
 #            if target.is_executable:
 #                if len(target.test_runner_args) >= 0:
 #                    out.write('add_executable(')
@@ -567,13 +580,10 @@ class CMakeGenerator:
 #                    out.write('# target_xcompile_options(' + target.symbol + 
 #                              ' ' + target.ld_flags + ')\n\n')
 #
-                if len(target.needed_libs) != 0:
-                    missing_libs = ['FWCoreUtilities', 'DataFormatsCommon', 'DataFormstsProvenance', 'DataFormatCandidate', 'DataFormatsTrackReco']
-                    needed_libs = [ lib for lib in target.needed_libs if lib in missing_libs ]
-                    if len(needed_libs) != 0:
-                        out.write('target_link_libraries(' + target.symbol + ' PUBLIC\n')
-                        out.write('\n'.join(sorted(needed_libs))) 
-                        out.write('\n)\n\n')
+#                if len(target.needed_libs) != 0:
+#                    out.write('target_link_libraries(' + target.symbol + ' PUBLIC\n')
+#                    out.write('\n'.join(sorted(needed_libs))) 
+#                    out.write('\n)\n\n')
 #
 #                if re.search('test', target.dir) :
 #                    if not target.is_executable:
@@ -620,8 +630,7 @@ class CMakeGenerator:
                 out.write(' EXPORT stitched::')
                 out.write(')\n\n')
                 if len(target.needed_libs) != 0:
-                    missing_libs = ['FWCoreUtilities', 'DataFormatsCommon', 'DataFormstsProvenance', 'DataFormatCandidate', 'DataFormatsTrackReco']
-                    needed_libs = [ lib for lib in target.needed_libs if lib in missing_libs ]
+                    needed_libs = [ lib for lib in target.needed_libs if lib in self.linkable_targets ]
                     if len(needed_libs) != 0:
                         out.write('target_link_libraries(' + target.symbol + ' PUBLIC\n')
                         out.write('\n'.join(sorted(needed_libs))) 
@@ -988,6 +997,10 @@ install(FILES ${pcmfiles} ${rootmapfiles} ${CMAKE_BINARY_DIR}/lib/.edmplugincach
 
 
     def gen(self):
+        for module in self.project.modules:
+            for target in module.targets:
+                if target.has_dictionary() and str(target.symbol) not in self.linkable_targets:
+                    self.linkable_targets.add(str(target.symbol))
         for module in self.project.modules:
             if self.handle_module(module):
                 for target in module.targets:

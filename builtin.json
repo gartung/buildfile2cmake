@@ -128,15 +128,6 @@
         ]
     },
     "HepPDT": {
-        "find": [
-            "HepPDT"
-        ],
-        "includes": [
-            "${HepPDT_INCLUDE_DIR}"
-        ],
-        "links": [
-            "${HepPDT_HepPDT_LIBRARY}"
-        ]
     },
     "HistoData": {
         "links": [
@@ -230,6 +221,9 @@
             "${Boost_INCLUDE_DIR}/python",
             "${Python_INCLUDE_DIR}",
             "/usr/include"
+        ],
+        "find": [
+            "Boost"
         ]
     },
     "boost_chrono": {
@@ -239,6 +233,9 @@
         "links": [
             "Boost::chrono",
             "Boost::system"
+        ],
+        "find": [
+            "Boost"
         ]
     },
     "boost_filesystem": {
@@ -248,6 +245,9 @@
         "links": [
             "Boost::filesystem",
             "Boost::system"
+        ],
+        "find": [
+            "Boost"
         ]
     },
     "boost_header": {},
@@ -257,6 +257,9 @@
         ],
         "links": [
             "Boost::iostreams"
+        ],
+        "find": [
+            "Boost"
         ]
     },
     "boost_program_options": {
@@ -265,6 +268,9 @@
         ],
         "links": [
             "Boost::program_options"
+        ],
+        "find": [
+            "Boost"
         ]
     },
     "boost_python": {
@@ -286,6 +292,9 @@
         ],
         "links": [
             "Boost::regex"
+        ],
+        "find": [
+            "Boost"
         ]
     },
     "boost_serialization": {
@@ -294,6 +303,9 @@
         ],
         "links": [
             "Boost::serialization"
+        ],
+        "find": [
+            "Boost"
         ]
     },
     "boost_system": {
@@ -302,6 +314,9 @@
         ],
         "links": [
             "Boost::system"
+        ],
+        "find": [
+            "Boost"
         ]
     },
     "boost_test": {},
@@ -322,22 +337,8 @@
         ]
     },
     "castor": {
-        "find": [
-            "CASTOR"
-        ],
-        "includes": [
-            "${CASTOR_INCLUDE_DIRS}",
-            "${CASTOR_INCLUDE_DIRS}/shift"
-        ]
     },
     "castor_header": {
-        "find": [
-            "CASTOR"
-        ],
-        "includes": [
-            "${CASTOR_INCLUDE_DIRS}",
-            "${CASTOR_INCLUDE_DIRS}/shift"
-        ]
     },
     "catch2": {
          "includes": [
@@ -384,15 +385,6 @@
         ]
     },
     "cppunit": {
-        "find": [
-            "CppUnit"
-        ],
-        "includes": [
-            "${CPPUNIT_INCLUDE_DIR}"
-        ],
-        "links": [
-            "${CPPUNIT_LIBRARY}"
-        ]
     },
     "cuda": {},
     "curl": {
@@ -474,16 +466,6 @@
         ]
     },
     "fastjet": {
-        "includes": [
-            "${FASTJET_INCLUDE_DIR}"
-        ],
-        "links": [
-            "fastjetplugins",
-            "fastjettools",
-            "siscone",
-            "siscone_spherical",
-            "fastjet"
-        ]
     },
     "fastjet-contrib": {
         "includes": [
@@ -557,9 +539,6 @@
             "Geant4::G4vis_management",
             "Geant4::G4visXXX",
             "Geant4::G4VRML"
-        ],
-        "find": [
-            "Geant4"
         ]
     },
     "geant4core": {
@@ -597,9 +576,6 @@
             "Geant4::G4vis_management",
             "Geant4::G4visXXX",
             "Geant4::G4VRML"
-        ],
-        "find": [
-            "Geant4"
         ]
     },
     "geant4static": {
@@ -637,9 +613,6 @@
             "Geant4::G4vis_management",
             "Geant4::G4visXXX",
             "Geant4::G4VRML"
-        ],
-        "find": [
-            "Geant4"
         ]
     },
     "Gpad": {
@@ -705,15 +678,6 @@
         ]
     },
     "heppdt": {
-        "find": [
-            "HepPDT"
-        ],
-        "includes": [
-            "${HEPPDT_INCLUDE_DIR}"
-        ],
-        "links": [
-            "${HEPPDT_PDT_LIBRARY}"
-        ]
     },
     "herwig": {
         "includes": [
@@ -784,15 +748,15 @@
         ]
     },
     "libuuid": {
-        "find": [
-            "UUID"
-        ],
         "includes": [
-            "${UUID_INCLUDE_DIR}"
-        ],
-        "links": [
-            "${UUID_LIBRARIES}"
-        ]
+             "${UUID_INCLUDE_DIR}"
+         ],
+         "find": [
+             "UUID"
+         ],
+         "links": [
+             "${UUID_LIBRARIES}"
+         ]
     },
     "llvm": {
         "includes": [
@@ -845,7 +809,7 @@
             "ROOT::Thread",
             "ROOT::RIO",
             "ROOT::Core",
-            "ROOT::MathCore"
+            "ROOT,:MathCore"
         ]
     },
     "occi": {
@@ -854,21 +818,20 @@
         ]
     },
     "opengl": {
-        "find": [
-            "OpenGL"
-        ],
         "includes": [
             "${OPENGL_INCLUDE_DIR}"
         ],
         "links": [
             "${OPENGL_gl_LIBRARY}",
-            "${OPENGL_glu_LIBRARY}"
+            "${OPENGL_glu_LIBRARY}",
+            "OpenGL::GL",
+            "OpenGL::GLU"
+        ],
+        "find": [
+            "OpenGL"
         ]
     },
     "openssl": {
-        "find": [
-            "OpenSSL"
-        ],
         "includes": [
             "${OPENSSL_INCLUDE_DIR}"
         ],
@@ -1641,23 +1604,8 @@
     },
     "valgrind": {},
     "vdt": {
-        "find": [
-            "VDT"
-        ],
-        "includes": [
-            "${VDT_INCLUDE_DIR}"
-        ],
-        "links": [
-            "${VDT_LIBRARIES}"
-        ]
     },
     "vdt_headers": {
-        "find": [
-            "VDT"
-        ],
-        "includes": [
-            "${VDT_INCLUDE_DIR}"
-        ]
     },
     "vincia": {
         "includes": [
@@ -1675,28 +1623,8 @@
         ]
     },
     "xerces-c": {
-        "find": [
-            "XercesC"
-        ],
-        "includes": [
-            "${XERCESC_INCLUDE_DIR}"
-        ],
-        "links": [
-            "${XERCESC_LIBRARIES}"
-        ]
     },
     "xrootd": {
-        "find": [
-            "Xrootd"
-        ],
-        "includes": [
-            "${XROOTD_INCLUDE_DIR}"
-        ],
-        "links": [
-            "XrdClient",
-            "XrdUtils"
-        ],
-        "cxx_flags": ["-D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64"]
     },
     "xz": {
         "includes": [
@@ -1752,7 +1680,11 @@
     "pyquen": {},
     "mkfit": {},
     "onnxruntime": {},
-    "stdcxx-fs": {},
+    "stdcxx-fs": {
+        "links": [
+            "stdc++fs"
+        ]
+    },
     "ofast-flag": {},
     "dd4hep-geant4": {}
 }

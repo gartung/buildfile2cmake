@@ -439,26 +439,32 @@ class CMakeGenerator:
                                      '${CLHEP_MAIN_LIBRARY}',
                                      '${TINYXML2_LIBRARY}',
                                      '${HEPMC_HepMC_LIBRARY}',
-                                     "${HEPPDT_PDT_LIBRARY}",
-                                     "${VDT_LIBRARIES}",
                                      'fmt::fmt',
+                                     'stdc++fs', 
                                      'FWCoreUtilities',
                                      'FWCoreMessageLogger',
                                      'FWCoreReflection',
+                                     'CommonToolsUtils',
+                                     'CondFormatsSerialization',
                                      "Threads::Threads",
-                                     "ROOT::Tree",
-                                     "ROOT::Net",
-                                     "ROOT::Thread",
-                                     "ROOT::RIO",
-                                     "ROOT::Core",
-                                     "ROOT::MathCore"])
+                                     "${OPENGL_gl_LIBRARY}",
+                                     "${OPENGL_glu_LIBRARY}",
+                                     "OpenGL:GL",
+                                     "OpenGL::GLU",
+                                     "${MD5_LIBRARY}",
+                                     "${UUID_LIBRARIES}",
+                                     "Boost::chrono", "Boost::system", "Boost::filesystem", "Boost::iostreams", "Boost::program_options", "Boost::regex", "Boost::serialization", 
+                                     "ROOT::vectorDict", "ROOT::listDict", "ROOT::forward_listDict", "ROOT::dequeDict", "ROOT::mapDict", "ROOT::map2Dict", "ROOT::unordered_mapDict", "ROOT::multimapDict", "ROOT::multimap2Dict", "ROOT::unordered_multimapDict", "ROOT::setDict", "ROOT::unordered_setDict", "ROOT::multisetDict", "ROOT::unordered_multisetDict", "ROOT::complexDict", "ROOT::valarrayDict", "ROOT::Cling", "ROOT::MultiProc", "ROOT::Rint", "ROOT::Thread", "ROOT::Imt", "ROOT::New", "ROOT::Core", "ROOT::rmkdepend", "ROOT::MathCore", "ROOT::MathMore", "ROOT::Matrix", "ROOT::Minuit", "ROOT::Minuit2", "ROOT::Fumili", "ROOT::Physics", "ROOT::MLP", "ROOT::Quadp", "ROOT::Foam", "ROOT::Smatrix", "ROOT::SPlot", "ROOT::GenVector", "ROOT::Genetic", "ROOT::FFTW", "ROOT::ROOTVecOps", "ROOT::Hist", "ROOT::HistPainter", "ROOT::ROOTHist", "ROOT::ROOTHistDraw", "ROOT::Spectrum", "ROOT::SpectrumPainter", "ROOT::Unfold", "ROOT::Tree", "ROOT::TreePlayer", "ROOT::TreeViewer", "ROOT::ROOTDataFrame", "ROOT::ROOTNTuple", "ROOT::RIO", "ROOT::SQLIO", "ROOT::XMLIO", "ROOT::XMLParser", "ROOT::DCache", "ROOT::Net", "ROOT::RootAuth", "ROOT::SrvAuth", "ROOT::RDAVIX", "ROOT::NetxNG", "ROOT::RHTTP", "ROOT::RHTTPSniff", "ROOT::ROOTGpadv7", "ROOT::ROOTGraphicsPrimitives", "ROOT::Gpad", "ROOT::Graf", "ROOT::Postscript", "ROOT::GX11", "ROOT::GX11TTF", "ROOT::ASImage", "ROOT::ASImageGui", "ROOT::Graf3d", "ROOT::X3d", "ROOT::RCsg", "ROOT::FTGL", "ROOT::GLEW", "ROOT::Eve", "ROOT::RGL", "ROOT::Gviz3d", "ROOT::ROOTEve", "ROOT::Gui", "ROOT::Ged", "ROOT::FitPanel", "ROOT::GuiBld", "ROOT::GuiHtml", "ROOT::Recorder", "ROOT::SessionViewer", "ROOT::ROOTWebDisplay", "ROOT::WebGui6", "ROOT::ROOTBrowserv7", "ROOT::ROOTCanvasPainter", "ROOT::ROOTFitPanelv7", "ROOT::Proof", "ROOT::ProofPlayer", "ROOT::ProofDraw", "ROOT::ProofBench", "ROOT::Html", "ROOT::EG", "ROOT::Geom", "ROOT::GeomBuilder", "ROOT::GeomPainter", "ROOT::Gdml", "ROOT::root", "ROOT::rootn.exe", "ROOT::roots.exe", "ROOT::xpdtest", "ROOT::root.exe", "ROOT::proofserv.exe", "ROOT::hadd", "ROOT::rootnb.exe", "ROOT::rootcling", "ROOT::PyROOT", "ROOT::TMVA", "ROOT::TMVAGui", "ROOT::PyMVA", "ROOT::RooFitCore", "ROOT::RooFit", "ROOT::RooFitMore", "ROOT::RooStats", "ROOT::HistFactory", "ROOT::hist2workspace"])
         self.skipped_targets=set(['AlignmentCocoaFit',
                                   'AlignmentCocoaApplication',
                                   'CUDADataFormatsBeamSpot',
+                                  'CUDADataFormatsCommon',
+                                  'CUDADataFormatsStdDictionaries',
+                                  'CalibrationHcalCalibAlgos',
+                                  'CondFormatsPPSObjects',
                                   'DQMServicesCore',
                                   'HeterogeneousCoreCUDATest',
                                   'HeterogeneousCoreCUDAUtilities',
-                                  'CUDADataFormatsCommon',
                                   'OnlineDBOracle',
                                   'OnlineDBEcalCondDB',
                                   'CondCoreDBOutputService',
@@ -466,9 +472,13 @@ class CMakeGenerator:
                                   'RecoTrackerMkFit',
                                   'CondCoreUtilities',
                                   'FireworksCore',
+                                  'PhysicsToolsHeppy',
                                   'RecoParticleFlowBenchmark',
+                                  'TrackingToolsTrajectoryState',
+                                  'RecoPixelVertexingPixelTriplets',
+                                  'SimTrackerTrackHistory',
                                   'FireworksFWInterface']) 
-        self.allowed_targets=set(['FWCoreUtilities', 'FWCoreMessageLogger', 'FWCoreReflection'])       
+        self.allowed_targets=set(['FWCoreUtilities', 'FWCoreMessageLogger', 'FWCoreReflection', 'CommonToolsUtils', 'CondFormatsSerialization'])       
     # Writes the necessary CMake commands to generate the given target
     # to the given out stream (which needs to support a 'write' call).
     def generate_target(self, target, out):
@@ -504,12 +514,13 @@ class CMakeGenerator:
                 out.write('${CMAKE_INSTALL_LIBDIR}')
                 out.write(' EXPORT stitched::')
                 out.write(')\n\n')
+                out.write('target_link_libraries(' + target.symbol + ' PUBLIC\n')
+                out.write('ROOT::Core\n')
                 if len(target.needed_libs) != 0:
                     needed_libs = [ lib for lib in target.needed_libs if lib in self.linkable_targets ]
                     if len(needed_libs) != 0:
-                        out.write('target_link_libraries(' + target.symbol + ' PUBLIC\n')
                         out.write('\n'.join(sorted(needed_libs))) 
-                        out.write('\n)\n\n')
+                out.write('\n)\n\n')
             elif str(target.symbol) in self.allowed_targets:
                 out.write('include_directories(${CMAKE_SOURCE_DIR}\n')
                 out.write('\n'.join(sorted(target.include_dirs)))
@@ -560,12 +571,13 @@ class CMakeGenerator:
                 out.write('${CMAKE_INSTALL_LIBDIR}')
                 out.write(' EXPORT stitched::')
                 out.write(')\n\n')
+                out.write('target_link_libraries(' + target.symbol + ' PUBLIC\n')
+                out.write('ROOT::Core\n')
                 if len(target.needed_libs) != 0:
                     needed_libs = [ lib for lib in target.needed_libs if lib in self.linkable_targets ]
                     if len(needed_libs) != 0:
-                        out.write('target_link_libraries(' + target.symbol + ' PUBLIC\n')
                         out.write('\n'.join(sorted(needed_libs))) 
-                        out.write('\n)\n\n')
+                out.write('\n)\n\n')
                 out.write('\n')
  
     # Generates the CMakeLists.txt for a given target. Note: This function APPENDS to an
@@ -647,8 +659,13 @@ project(Framework VERSION 0.0.0 LANGUAGES C CXX)
 if(BUILDTEST)
   include(CTest)
   enable_testing()
-else()
-  message('set BUILDTEST=True to run tests')
+endif()
+if(CMAKE_CXX_COMPILER_ID EQUAL Clang OR CMAKE_COMPILER_IS_GNUCC  OR CMAKE_COMPILER_IS_GNUCXX)
+  if(UNIX AND NOT APPLE)
+    SET( CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} -z defs")
+    SET( CMAKE_MODULE_LINKER_FLAGS  "${CMAKE_MODULE_LINKER_FLAGS} -z defs")
+    SET( CMAKE_SHARED_LINKER_FLAGS  "${CMAKE_SHARED_LINKER_FLAGS} -z defs")
+  endif()
 endif()
 cmake_policy( SET CMP0082 NEW)
 set(CMAKE_CXX_STANDARD 17)

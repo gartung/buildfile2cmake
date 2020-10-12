@@ -219,11 +219,13 @@
         "includes": [
             "${Boost_INCLUDE_DIR}",
             "${Boost_INCLUDE_DIR}/python",
-            "${Python_INCLUDE_DIR}",
-            "/usr/include"
+            "${Python_INCLUDE_DIR}"
         ],
         "find": [
             "Boost"
+        ],
+        "depends": [
+            "sockets"
         ]
     },
     "boost_chrono": {
@@ -756,6 +758,9 @@
          ],
          "links": [
              "${UUID_LIBRARIES}"
+         ],
+         "depends": [
+             "sockets"
          ]
     },
     "llvm": {
@@ -1479,7 +1484,8 @@
             "nsl",
             "crypt",
             "Threads:Threads",
-            "rt"
+            "rt",
+            "dl"
         ]
     },
     "tauola": {

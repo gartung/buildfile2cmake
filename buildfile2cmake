@@ -434,18 +434,19 @@ class CMakeGenerator:
 
     def __init__(self, project):
         self.project = project
-        self.linkable_targets = set(['${TBB_LIBRARIES}',
+        self.linkable_targets = [
+                                     'nsl',
+                                     'crypt',
+                                     'Threads:Threads',
+                                     'rt',
+                                     'dl',
+                                     '${TBB_LIBRARIES}',
                                      '${CLHEP_LIBRARIES}',
                                      '${CLHEP_MAIN_LIBRARY}',
                                      '${TINYXML2_LIBRARY}',
                                      '${HEPMC_HepMC_LIBRARY}',
                                      'fmt::fmt',
                                      'stdc++fs', 
-                                     'FWCoreUtilities',
-                                     'FWCoreMessageLogger',
-                                     'FWCoreReflection',
-                                     'CommonToolsUtils',
-                                     'CondFormatsSerialization',
                                      "Threads::Threads",
                                      "${OPENGL_gl_LIBRARY}",
                                      "${OPENGL_glu_LIBRARY}",
@@ -454,31 +455,113 @@ class CMakeGenerator:
                                      "${MD5_LIBRARY}",
                                      "${UUID_LIBRARIES}",
                                      "Boost::chrono", "Boost::system", "Boost::filesystem", "Boost::iostreams", "Boost::program_options", "Boost::regex", "Boost::serialization", 
-                                     "ROOT::vectorDict", "ROOT::listDict", "ROOT::forward_listDict", "ROOT::dequeDict", "ROOT::mapDict", "ROOT::map2Dict", "ROOT::unordered_mapDict", "ROOT::multimapDict", "ROOT::multimap2Dict", "ROOT::unordered_multimapDict", "ROOT::setDict", "ROOT::unordered_setDict", "ROOT::multisetDict", "ROOT::unordered_multisetDict", "ROOT::complexDict", "ROOT::valarrayDict", "ROOT::Cling", "ROOT::MultiProc", "ROOT::Rint", "ROOT::Thread", "ROOT::Imt", "ROOT::New", "ROOT::Core", "ROOT::rmkdepend", "ROOT::MathCore", "ROOT::MathMore", "ROOT::Matrix", "ROOT::Minuit", "ROOT::Minuit2", "ROOT::Fumili", "ROOT::Physics", "ROOT::MLP", "ROOT::Quadp", "ROOT::Foam", "ROOT::Smatrix", "ROOT::SPlot", "ROOT::GenVector", "ROOT::Genetic", "ROOT::FFTW", "ROOT::ROOTVecOps", "ROOT::Hist", "ROOT::HistPainter", "ROOT::ROOTHist", "ROOT::ROOTHistDraw", "ROOT::Spectrum", "ROOT::SpectrumPainter", "ROOT::Unfold", "ROOT::Tree", "ROOT::TreePlayer", "ROOT::TreeViewer", "ROOT::ROOTDataFrame", "ROOT::ROOTNTuple", "ROOT::RIO", "ROOT::SQLIO", "ROOT::XMLIO", "ROOT::XMLParser", "ROOT::DCache", "ROOT::Net", "ROOT::RootAuth", "ROOT::SrvAuth", "ROOT::RDAVIX", "ROOT::NetxNG", "ROOT::RHTTP", "ROOT::RHTTPSniff", "ROOT::ROOTGpadv7", "ROOT::ROOTGraphicsPrimitives", "ROOT::Gpad", "ROOT::Graf", "ROOT::Postscript", "ROOT::GX11", "ROOT::GX11TTF", "ROOT::ASImage", "ROOT::ASImageGui", "ROOT::Graf3d", "ROOT::X3d", "ROOT::RCsg", "ROOT::FTGL", "ROOT::GLEW", "ROOT::Eve", "ROOT::RGL", "ROOT::Gviz3d", "ROOT::ROOTEve", "ROOT::Gui", "ROOT::Ged", "ROOT::FitPanel", "ROOT::GuiBld", "ROOT::GuiHtml", "ROOT::Recorder", "ROOT::SessionViewer", "ROOT::ROOTWebDisplay", "ROOT::WebGui6", "ROOT::ROOTBrowserv7", "ROOT::ROOTCanvasPainter", "ROOT::ROOTFitPanelv7", "ROOT::Proof", "ROOT::ProofPlayer", "ROOT::ProofDraw", "ROOT::ProofBench", "ROOT::Html", "ROOT::EG", "ROOT::Geom", "ROOT::GeomBuilder", "ROOT::GeomPainter", "ROOT::Gdml", "ROOT::root", "ROOT::rootn.exe", "ROOT::roots.exe", "ROOT::xpdtest", "ROOT::root.exe", "ROOT::proofserv.exe", "ROOT::hadd", "ROOT::rootnb.exe", "ROOT::rootcling", "ROOT::PyROOT", "ROOT::TMVA", "ROOT::TMVAGui", "ROOT::PyMVA", "ROOT::RooFitCore", "ROOT::RooFit", "ROOT::RooFitMore", "ROOT::RooStats", "ROOT::HistFactory", "ROOT::hist2workspace"])
-        self.skipped_targets=set(['AlignmentCocoaFit',
-                                  'AlignmentCocoaApplication',
-                                  'CUDADataFormatsBeamSpot',
-                                  'CUDADataFormatsCommon',
-                                  'CUDADataFormatsStdDictionaries',
-                                  'CalibrationHcalCalibAlgos',
-                                  'CondFormatsPPSObjects',
-                                  'DQMServicesCore',
-                                  'HeterogeneousCoreCUDATest',
-                                  'HeterogeneousCoreCUDAUtilities',
-                                  'OnlineDBOracle',
-                                  'OnlineDBEcalCondDB',
-                                  'CondCoreDBOutputService',
-                                  'RecoLuminosityLumiProducer',
-                                  'RecoTrackerMkFit',
-                                  'CondCoreUtilities',
-                                  'FireworksCore',
-                                  'PhysicsToolsHeppy',
-                                  'RecoParticleFlowBenchmark',
-                                  'TrackingToolsTrajectoryState',
-                                  'RecoPixelVertexingPixelTriplets',
-                                  'SimTrackerTrackHistory',
-                                  'FireworksFWInterface']) 
-        self.allowed_targets=set(['FWCoreUtilities', 'FWCoreMessageLogger', 'FWCoreReflection', 'CommonToolsUtils', 'CondFormatsSerialization'])       
+                                     "ROOT::vectorDict", "ROOT::listDict", "ROOT::forward_listDict", "ROOT::dequeDict", "ROOT::mapDict", "ROOT::map2Dict", "ROOT::unordered_mapDict", "ROOT::multimapDict", "ROOT::multimap2Dict", "ROOT::unordered_multimapDict", "ROOT::setDict", "ROOT::unordered_setDict", "ROOT::multisetDict", "ROOT::unordered_multisetDict", "ROOT::complexDict", "ROOT::valarrayDict", "ROOT::Cling", "ROOT::MultiProc", "ROOT::Rint", "ROOT::Thread", "ROOT::Imt", "ROOT::New", "ROOT::Core", "ROOT::rmkdepend", "ROOT::MathCore", "ROOT::MathMore", "ROOT::Matrix", "ROOT::Minuit", "ROOT::Minuit2", "ROOT::Fumili", "ROOT::Physics", "ROOT::MLP", "ROOT::Quadp", "ROOT::Foam", "ROOT::Smatrix", "ROOT::SPlot", "ROOT::GenVector", "ROOT::Genetic", "ROOT::FFTW", "ROOT::ROOTVecOps", "ROOT::Hist", "ROOT::HistPainter", "ROOT::ROOTHist", "ROOT::ROOTHistDraw", "ROOT::Spectrum", "ROOT::SpectrumPainter", "ROOT::Unfold", "ROOT::Tree", "ROOT::TreePlayer", "ROOT::TreeViewer", "ROOT::ROOTDataFrame", "ROOT::ROOTNTuple", "ROOT::RIO", "ROOT::SQLIO", "ROOT::XMLIO", "ROOT::XMLParser", "ROOT::DCache", "ROOT::Net", "ROOT::RootAuth", "ROOT::SrvAuth", "ROOT::RDAVIX", "ROOT::NetxNG", "ROOT::RHTTP", "ROOT::RHTTPSniff", "ROOT::ROOTGpadv7", "ROOT::ROOTGraphicsPrimitives", "ROOT::Gpad", "ROOT::Graf", "ROOT::Postscript", "ROOT::GX11", "ROOT::GX11TTF", "ROOT::ASImage", "ROOT::ASImageGui", "ROOT::Graf3d", "ROOT::X3d", "ROOT::RCsg", "ROOT::FTGL", "ROOT::GLEW", "ROOT::Eve", "ROOT::RGL", "ROOT::Gviz3d", "ROOT::ROOTEve", "ROOT::Gui", "ROOT::Ged", "ROOT::FitPanel", "ROOT::GuiBld", "ROOT::GuiHtml", "ROOT::Recorder", "ROOT::SessionViewer", "ROOT::ROOTWebDisplay", "ROOT::WebGui6", "ROOT::ROOTBrowserv7", "ROOT::ROOTCanvasPainter", "ROOT::ROOTFitPanelv7", "ROOT::Proof", "ROOT::ProofPlayer", "ROOT::ProofDraw", "ROOT::ProofBench", "ROOT::Html", "ROOT::EG", "ROOT::Geom", "ROOT::GeomBuilder", "ROOT::GeomPainter", "ROOT::Gdml", "ROOT::root", "ROOT::rootn.exe", "ROOT::roots.exe", "ROOT::xpdtest", "ROOT::root.exe", "ROOT::proofserv.exe", "ROOT::hadd", "ROOT::rootnb.exe", "ROOT::rootcling", "ROOT::PyROOT", "ROOT::TMVA", "ROOT::TMVAGui", "ROOT::PyMVA", "ROOT::RooFitCore", "ROOT::RooFit", "ROOT::RooFitMore", "ROOT::RooStats", "ROOT::HistFactory", "ROOT::hist2workspace"]
+        self.allowed_targets = [
+                                  'CondFormatsSerialization',
+                                  'CondFormatsExternal',
+                                  'CondFormatsAlignment',
+                                  'DataFormatsBTauReco',
+                                  'DataFormatsCaloRecHit',
+                                  'DataFormatsDetId',
+                                  'DataFormatsFEDRawData',
+                                  'DataFormatsGeometryVector',
+                                  'DataFormatsHepMCCandidate',
+                                  'DataFormatsL1GlobalTrigger',
+                                  'DataFormatsMuonDetId',
+                                  'DataFormatsPhase2TrackerDigi',
+                                  'DataFormatsSiPixelDetId',
+                                  'DataFormatsTrackCandidate',
+                                  'DataFormatsVertexReco',
+                                  'DataFormatsBeamSpot',
+                                  'DataFormatsCaloTowers',
+                                  'DataFormatsEcalDetId',
+                                  'DataFormatsFTLRecHit',
+                                  'DataFormatsGsfTrackReco',
+                                  'DataFormatsJetReco',
+                                  'DataFormatsL1TCalorimeter',
+                                  'DataFormatsMuonReco',
+                                  'DataFormatsProtonReco',
+                                  'DataFormatsSiStripCluster',
+                                  'DataFormatsTrackReco',
+                                  'DataFormatsWrappedStdDictionaries',
+                                  'DataFormatsCLHEP',
+                                  'DataFormatsCandidate',
+                                  'DataFormatsEcalDigi',
+                                  'DataFormatsForwardDetId',
+                                  'DataFormatsHLTReco',
+                                  'DataFormatsL1CSCTrackFinder',
+                                  'DataFormatsL1TGlobal',
+                                  'DataFormatsOnlineMetaData',
+                                  'DataFormatsProvenance',
+                                  'DataFormatsSiStripDetId',
+                                  'DataFormatsTrackerCommon',
+                                  'DataFormatsCSCDigi',
+                                  'DataFormatsCastorReco',
+                                  'DataFormatsEcalRecHit',
+                                  'DataFormatsGEMDigi',
+                                  'DataFormatsHcalDetId',
+                                  'DataFormatsL1CaloTrigger',
+                                  'DataFormatsL1TMuon',
+                                  'DataFormatsParticleFlowCandidate',
+                                  'DataFormatsRPCRecHit',
+                                  'DataFormatsSiStripDigi',
+                                  'DataFormatsTrackerRecHit2D',
+                                  'DataFormatsCSCRecHit',
+                                  'DataFormatsCommon',
+                                  'DataFormatsEgammaCandidates',
+                                  'DataFormatsGEMRecHit',
+                                  'DataFormatsHcalDigi',
+                                  'DataFormatsL1DTTrackFinder',
+                                  'DataFormatsL1Trigger',
+                                  'DataFormatsParticleFlowReco',
+                                  'DataFormatsReco',
+                                  'DataFormatsCandidate',
+                                  'DataFormatsStdDictionaries',
+                                  'DataFormatsTrackingRecHit',
+                                  'DataFormatsCTPPSDigi',
+                                  'DataFormatsDTDigi',
+                                  'DataFormatsEgammaReco',
+                                  'DataFormatsGeometryCommonDetAlgo',
+                                  'DataFormatsHcalIsolatedTrack',
+                                  'DataFormatsL1GlobalCaloTrigger',
+                                  'DataFormatsMETReco',
+                                  'DataFormatsPatCandidates',
+                                  'DataFormatsScalers',
+                                  'DataFormatsTCDS',
+                                  'DataFormatsTrajectorySeed',
+                                  'DataFormatsCTPPSReco',
+                                  'DataFormatsDTRecHit',
+                                  'DataFormatsEgammaTrackReco',
+                                  'DataFormatsGeometrySurface',
+                                  'DataFormatsHcalRecHit',
+                                  'DataFormatsL1GlobalMuonTrigger',
+                                  'DataFormatsMath',
+                                  'DataFormatsPhase2TrackerCluster',
+                                  'DataFormatsSiPixelCluster',
+                                  'DataFormatsTauReco',
+                                  'DataFormatsTrajectoryState',
+                                  'FWCoreUtilities',
+                                  'FWCoreMessageLogger',
+                                  'FWCoreReflection',
+                                  'FWCoreCommon',
+                                  'FWCoreParameterSet',
+                                  'FWCorePluginManager',
+                                  'GeometryCaloGeometry',
+                                  'GeometryCommonDetUnit',
+                                  'GeometryCommonTopologies',
+                                  'SimDataFormatsDigiSimLinks',
+                                  'SimDataFormatsEncodedEventId',
+                                  'SimDataFormatsGEMDigiSimLink',
+                                  'SimDataFormatsGeneratorProducts',
+                                  'SimDataFormatsJetMatching',
+                                  'SimDataFormatsPileupSummaryInfo',
+                                  'SimDataFormatsRPCDidiSimLink',
+                                  'SimDataFormatsTrack',
+                                  'SimDataFormatsTrackerDigiSimLink',
+                                  'SimDataFormatsTrackingAnalysis',
+                                  'SimDataFormatsVertex'
+                                 ]
+        self.linkable_targets.extend(self.allowed_targets)
     # Writes the necessary CMake commands to generate the given target
     # to the given out stream (which needs to support a 'write' call).
     def generate_target(self, target, out):
@@ -487,7 +570,7 @@ class CMakeGenerator:
 
         if target.has_source():
             out.write('#target.symbol %s\n' % target.symbol)
-            if target.has_dictionary() and str(target.symbol) not in self.skipped_targets:
+            if target.has_dictionary() and str(target.symbol) in self.allowed_targets:
                 out.write('include_directories(${CMAKE_SOURCE_DIR}\n')
                 out.write('\n'.join(sorted(target.include_dirs)))
                 out.write('\n)\n\n')
@@ -548,7 +631,7 @@ class CMakeGenerator:
                         out.write('\n'.join(sorted(needed_libs))) 
                         out.write('\n)\n\n')
         else:
-            if target.has_dictionary() and str(target.symbol) not in self.skipped_targets:
+            if target.has_dictionary() and str(target.symbol) in self.allowed_targets:
                 out.write('#target.symbol %s\n' % target.symbol)
                 out.write('include_directories(${CMAKE_SOURCE_DIR}\n')
                 out.write('\n'.join(sorted(target.include_dirs)))
@@ -597,16 +680,16 @@ class CMakeGenerator:
         if os.path.isfile(output_path):
             return False
 
-        output_file = open(output_path, 'w')
-
-        if len(module.binaries) != 0:
-            output_file.write('add_subdirectory(bin)\n')
-        if len(module.tests) != 0:
-            output_file.write('if(BUILDTEST)\n  add_subdirectory(test)\nendif()\n\n')
-        if len(module.plugins) != 0:
-            output_file.write('add_subdirectory(plugins)\n\n')
-
-        output_file.close()
+#        output_file = open(output_path, 'w')
+#
+#        if len(module.binaries) != 0:
+#            output_file.write('add_subdirectory(bin)\n')
+#        if len(module.tests) != 0:
+#            output_file.write('if(BUILDTEST)\n  add_subdirectory(test)\nendif()\n\n')
+#        if len(module.plugins) != 0:
+#            output_file.write('add_subdirectory(plugins)\n\n')
+#
+#        output_file.close()
         return True
 
     def handle_subsystem(self, subsystem, subsystem_modules):
@@ -635,7 +718,7 @@ class CMakeGenerator:
             for module in subsystem_modules:
                 for target in module.targets:
                     # FIXME: The StaticAnalyzer check is just an ugly hack...
-                    if target.built_by_cmake() and target.symbol != 'UtilitiesStaticAnalyzers'  and str(target.symbol) not in self.skipped_targets:
+                    if target.built_by_cmake() and target.symbol != 'UtilitiesStaticAnalyzers'  and str(target.symbol) in self.allowed_targets:
                         targets.add(target.symbol)
             if targets:
                 subsystem_cmake.write('# Meta-target that builds everything in this subsystem\n')
@@ -950,7 +1033,7 @@ install(FILES ${pcmfiles} ${rootmapfiles} ${CMAKE_BINARY_DIR}/lib/.edmplugincach
     def gen(self):
         for module in self.project.modules:
             for target in module.targets:
-                if target.has_dictionary() and str(target.symbol) not in self.linkable_targets and str(target.symbol) not in self.skipped_targets:
+                if target.has_dictionary() and str(target.symbol) not in self.linkable_targets and str(target.symbol) in self.allowed_targets:
                     self.linkable_targets.add(str(target.symbol))
         for module in self.project.modules:
             if self.handle_module(module):

@@ -542,6 +542,7 @@ class CMakeGenerator:
                                   'DataFormatsTrajectoryState',
                                   'DataFormatsMuonData',
                                   'DataFormatsCTPPSDetId',
+                                  'DataFormatsRecoCandidate',
                                   'FWCoreUtilities',
                                   'FWCoreMessageLogger',
                                   'FWCoreReflection',
@@ -603,7 +604,7 @@ class CMakeGenerator:
                 out.write('target_link_libraries(' + target.symbol + ' PUBLIC\n')
                 out.write('ROOT::Core\n')
                 if len(target.needed_libs) != 0:
-                    needed_libs = [ lib for lib in target.needed_libs if lib in self.linkable_targets ]
+                    needed_libs = [ lib for lib in target.needed_libs if lib in self.linkable_targets or lib in self.allowed_targets]
                     if len(needed_libs) != 0:
                         out.write('\n'.join(sorted(needed_libs))) 
                 out.write('\n)\n\n')
@@ -628,7 +629,7 @@ class CMakeGenerator:
                 out.write(' EXPORT stitched::')
                 out.write(')\n\n')
                 if len(target.needed_libs) != 0:
-                    needed_libs = [ lib for lib in target.needed_libs if lib in self.linkable_targets ]
+                    needed_libs = [ lib for lib in target.needed_libs if lib in self.linkable_targets or lib in self.allowed_targets]
                     if len(needed_libs) != 0:
                         out.write('target_link_libraries(' + target.symbol + ' PUBLIC\n')
                         out.write('\n'.join(sorted(needed_libs))) 
@@ -660,7 +661,7 @@ class CMakeGenerator:
                 out.write('target_link_libraries(' + target.symbol + ' PUBLIC\n')
                 out.write('ROOT::Core\n')
                 if len(target.needed_libs) != 0:
-                    needed_libs = [ lib for lib in target.needed_libs if lib in self.linkable_targets ]
+                    needed_libs = [ lib for lib in target.needed_libs if lib in self.linkable_targets or lib in self.allowed_targets]
                     if len(needed_libs) != 0:
                         out.write('\n'.join(sorted(needed_libs))) 
                 out.write('\n)\n\n')

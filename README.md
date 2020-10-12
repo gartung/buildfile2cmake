@@ -49,7 +49,8 @@ cmake ../src  -Wno-dev \
 -DEIGEN_INCLUDE_DIR=/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/eigen/d812f411c3f9-ghbfee/include \
 -DMD5ROOT=/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/md5/1.0.0-bcolbf2 \
 -DCLHEP_ROOT_DIR=/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/clhep/2.4.1.3-ghbfee \
--DUUID_ROOT_DIR=/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/libuuid/2.34-bcolbf2
+-DUUID_ROOT_DIR=/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/libuuid/2.34-bcolbf2 \
+-DVDT_ROOT_DIR=/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/vdt/0.4.0-ghbfee
 make VERBOSE=1 -j8
 ```
 - Assuming the configuration and build complete you can now make the dictionaries available by setting LD_LIBRARY_PATH

@@ -434,12 +434,12 @@ class CMakeGenerator:
 
     def __init__(self, project):
         self.project = project
-        self.linkable_targets = [
+        self.linkable_targets = [    'z',
                                      'nsl',
                                      'crypt',
-                                     'Threads:Threads',
                                      'rt',
                                      'dl',
+                                     'lzma',
                                      '${TBB_LIBRARIES}',
                                      '${CLHEP_LIBRARIES}',
                                      '${CLHEP_MAIN_LIBRARY}',
@@ -540,12 +540,15 @@ class CMakeGenerator:
                                   'DataFormatsSiPixelCluster',
                                   'DataFormatsTauReco',
                                   'DataFormatsTrajectoryState',
+                                  'DataFormatsMuonData',
+                                  'DataFormatsCTPPSDetId',
                                   'FWCoreUtilities',
                                   'FWCoreMessageLogger',
                                   'FWCoreReflection',
                                   'FWCoreCommon',
                                   'FWCoreParameterSet',
                                   'FWCorePluginManager',
+                                  'FWCoreConcurrency',
                                   'GeometryCaloGeometry',
                                   'GeometryCommonDetUnit',
                                   'GeometryCommonTopologies',

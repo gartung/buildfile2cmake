@@ -281,9 +281,6 @@
             "${Boost_INCLUDE_DIR}/python",
             "/usr/include"
         ],
-        "links": [
-            "Threads::Threads"
-        ],
         "depends": [
             "py2-pybind11"
         ]
@@ -1610,8 +1607,24 @@
     },
     "valgrind": {},
     "vdt": {
+        "includes": [
+            "${VDT_INCLUDE_DIR}"
+        ],
+        "links": [
+            "${VDT_LIBRARIES}"
+        ],
+        "find": [
+            "VDT"
+        ]
     },
     "vdt_headers": {
+        "includes": [
+            "${VDT_INCLUDE_DIR}"
+        ],
+        "find": [
+            "VDT"
+        ]
+
     },
     "vincia": {
         "includes": [

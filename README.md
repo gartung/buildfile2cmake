@@ -23,7 +23,7 @@ scram pro CMSSW CMSSW_11_2_0_pre7
 ```
 cd CMSSW_11_2_0_pre7/src
 eval `scram runtime -sh`
-git-cms-add-pkg '*/*' 
+git-cms-addpkg '*/*' 
 PATH/TO/REPO/buildfile2cmake
 ```
 - Clone the cmaketools repo
